@@ -1,0 +1,101 @@
+SEÑAL v1.4.1 — otra manera de escuchar música
+==========================================
+
+CÓMO ABRIRLA
+1. Descomprime esta carpeta donde quieras (por ejemplo en Documentos).
+2. Haz doble clic en "iniciar.bat".
+   - Se abre una ventana negra: déjala abierta mientras usas SEÑAL.
+   - El navegador abre solo http://127.0.0.1:5500/
+   - Si Windows muestra "Windows protegió tu PC", pulsa "Más información" y "Ejecutar de todas formas".
+3. Para apagarla, cierra la ventana negra.
+
+(Si usas VS Code con la extensión Live Server, también puedes abrir la carpeta y pulsar "Go Live".)
+
+CONECTAR SPOTIFY
+1. En la página, pulsa "SPOTIFY".
+2. Inicia sesión con tu cuenta Premium y acepta los permisos.
+3. Vuelves a SEÑAL. Elige una playlist o canción en "MI SPOTIFY".
+   SEÑAL aparece como un dispositivo más en tu app de Spotify.
+
+VISUALIZADOR CON SONIDO REAL
+Spotify no deja que las páginas "escuchen" su audio, así que:
+1. Con la música sonando, pulsa "AUDIO DEL PC".
+2. Elige "Toda la pantalla" y activa "Compartir también el audio del sistema".
+Sin esto, el visualizador se mueve con una señal simulada al ritmo de la reproducción.
+
+LETRAS
+Las letras salen de LRCLIB, una base de datos libre de letras sincronizadas.
+Si una canción no tiene letra ahí, se muestra el título en grande.
+Si la letra va adelantada o atrasada, ajústala con las teclas [ y ].
+
+ESTILOS DE LETRA (botón LETRA ▾ o tecla L)
+Karaoke · Foco · Palabra · Máquina · Subtítulo · Profundidad 3D · Sin letra
+
+VISUALIZADORES (botón VISUAL ▾ o teclas 1 a 7)
+1 Barras neón · 2 Aurora · 3 Orbe · 4 Cordillera · 5 Warp · 6 Vinilo · 7 Pixeles
+SEÑAL recuerda el estilo de letra, el visualizador y el volumen que elegiste.
+
+NUEVO EN LA v1.4 — BIBLIOTECA Y BÚSQUEDA
+- ⌕ BUSCAR (arriba, o tecla /): busca canciones, artistas, álbumes y playlists.
+- Abre cualquier playlist y ve sus canciones una por una; clic para reproducir
+  desde esa canción. ＋ agrega una canción a la cola.
+- ♥ ME GUSTA: tus canciones guardadas. La primera vez pide un permiso nuevo
+  (botón DAR PERMISO).
+- Artistas y álbumes se abren con sus canciones.
+- Límite de Spotify: solo deja ver las canciones de playlists CREADAS POR TI
+  (o colaborativas). Las que solo sigues se pueden reproducir completas.
+
+NUEVO EN LA v1.3
+
+BARRA ORDENADA: 4 botones arriba
+  ♫ MÚSICA   = Spotify, MP3, audio del PC, demo y tu biblioteca
+  Aa LETRA   = estilos, traducir, IA, crear/editar, importar/exportar, tiempo
+  ◐ VISUAL   = visualizadores con vista previa en vivo, CRT y blanco y negro
+  ⛶ PANTALLA = modo inmersivo, pantalla completa, título deslizante y atajos
+
+TRADUCIR (Aa LETRA > TRADUCIR, o tecla T)
+Muestra la letra en español debajo de cada línea.
+Usa el traductor que trae Chrome (gratis, dentro de tu PC). La primera vez
+descarga el idioma. La traducción se guarda para esa canción.
+
+SINCRONIZAR CON IA (v1.3.1, más fácil)
+1. Pon la canción (Spotify o MP3) y abre Aa LETRA > SINCRONIZAR CON IA.
+   Si la canción ya tiene letra, se usa sola; si no, pégala.
+2. Pulsa EMPEZAR.
+   - Spotify: en la ventana del navegador elige ESTA PESTAÑA (SEÑAL) y deja
+     marcado "Compartir audio de la pestaña". La canción vuelve al inicio.
+   - MP3: no hace falta escucharlo; la IA analiza el archivo directamente.
+3. Verás cómo se sincronizan las líneas en vivo. Al final revisas, corriges
+   con clic si hace falta y GUARDAS.
+La IA se empieza a descargar apenas abres el editor (solo la primera vez,
+unos 130 MB, necesita internet). Todo se procesa en tu PC.
+
+NUEVO EN LA v1.2
+
+TU PROPIA LETRA (tecla E, o LETRA ▾ > Crear / editar letra)
+1. Pega la letra, una frase por renglón.
+2. Dale play y presiona ENTER justo cuando empieza cada línea.
+   ⌫ deshacer · ← → mover 5 s · , . ajustar ±0.1 s · clic en una línea para volver a marcarla
+3. GUARDAR. La próxima vez que suene esa canción, SEÑAL usa tu letra sola.
+También puedes IMPORTAR o EXPORTAR archivos .lrc, y "VOLVER A LA ORIGINAL" para borrar la tuya.
+Al lado del artista verás de dónde sale la letra: TUYA, LRCLIB o DEMO.
+
+MODO INMERSIVO (botón INMERSIVO o tecla I)
+La letra y el visualizador ocupan toda la pantalla y todo lo demás se esconde.
+Acerca el mouse a los bordes:
+  izquierda = estilos de letra (con vista previa animada)
+  derecha   = visualizadores (con vista previa en vivo)
+  abajo     = reproductor
+  arriba    = menú
+I o Esc para salir.
+
+TECLAS
+Espacio = play/pausa · 1 a 7 = visualizador · L = estilo de letra
+I = modo inmersivo · E = crear/editar letra · T = traducir · ← → = mover 5 s
+C = efecto CRT · B = blanco y negro · F = pantalla completa
+[ ] = ajustar el tiempo de la letra · Esc = cerrar menús y biblioteca
+
+NOTAS
+- Solo funciona con tu cuenta (modo desarrollo de Spotify, requiere Premium).
+- La sesión se guarda solo en este navegador. "SALIR" la borra.
+- Usa Chrome o Edge en la PC.
