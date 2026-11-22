@@ -68,6 +68,7 @@ En modo desarrollo, Spotify solo permite que la app la usen el dueño y hasta 5 
 
 ## Versiones
 
+- **v1.4.2**: auditoría de calidad. Letras con palabras largas sin cortes, barra de una fila en el celular, textos más legibles, soporte para "reducir movimiento", lectores de pantalla y teclado, menos trabajo por cuadro y servidor local más seguro (sin salir de la carpeta y solo para 127.0.0.1/localhost).
 - **v1.4.1**: aviso para renovar permisos de Spotify.
 - **v1.4**: biblioteca con canciones, Me gusta, búsqueda, artistas y álbumes.
 - **v1.3.1**: sincronización con IA más fácil y estable.
