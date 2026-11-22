@@ -1,0 +1,63 @@
+rules_version = '2';
+// SEÑAL v2 · reglas de seguridad de Firestore
+// - Nadie entra si su correo no tiene un documento en /acceso/{correo} (lista de invitados).
+// - Cada persona solo puede leer y escribir SU carpeta /usuarios/{su-uid}.
+// - La lista de acceso solo se edita desde la consola de Firebase (nunca desde la web).
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function conSesion() {
+      return request.auth != null && request.auth.token.email_verified == true;
+    }
+    function invitado() {
+      return conSesion() &&
+        exists(/databases/$(database)/documents/acceso/$(request.auth.token.email));
+    }
+    function dueno(uid) {
+      return invitado() && request.auth.uid == uid;
+    }
+    function soloCampos(lista) {
+      return request.resource.data.keys().hasOnly(lista);
+    }
+
+    // Lista de invitados: cada quien solo puede comprobar SU propio correo.
+    match /acceso/{correo} {
+      allow get: if conSesion() && request.auth.token.email == correo;
+      allow list, create, update, delete: if false;
+    }
+
+    match /usuarios/{uid} {
+      allow read, delete: if dueno(uid);
+      allow create, update: if dueno(uid)
+        && soloCampos(['nombre', 'foto', 'creado', 'ajustes', 'pieles'])
+        && (!('ajustes' in request.resource.data) || request.resource.data.ajustes is map)
+        && (!('pieles' in request.resource.data) || request.resource.data.pieles is map);
+
+      // Letras propias (.lrc)
+      match /letras/{id} {
+        allow read, delete: if dueno(uid);
+        allow create, update: if dueno(uid)
+          && soloCampos(['lrc', 'titulo', 'artista', 'actualizado'])
+          && request.resource.data.lrc is string
+          && request.resource.data.lrc.size() < 60000;
+      }
+
+      // Historial de escucha (solo se agrega y se borra; no se edita)
+      match /historial/{id} {
+        allow read, delete: if dueno(uid);
+        allow create: if dueno(uid)
+          && soloCampos(['cancion', 'artista', 'genero', 'piel', 'fecha', 'ms'])
+          && request.resource.data.cancion is string && request.resource.data.cancion.size() < 300
+          && request.resource.data.artista is string && request.resource.data.artista.size() < 300
+          && request.resource.data.ms is int && request.resource.data.ms >= 0 && request.resource.data.ms < 3600000
+          && request.resource.data.fecha == request.time;
+        allow update: if false;
+      }
+    }
+
+    // Todo lo demás: cerrado.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

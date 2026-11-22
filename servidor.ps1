@@ -1,5 +1,6 @@
 # Servidor local de SENAL: sirve esta carpeta en http://127.0.0.1:5500/
 # Solo escucha en tu propio PC (127.0.0.1). Cierra la ventana para apagarlo.
+# v2.0: tambien entrega el manifiesto de la app (.webmanifest) para poder instalarla.
 # v1.4.2: solo entrega archivos DENTRO de esta carpeta (sin carpetas vecinas
 # ni archivos ocultos) y solo responde a 127.0.0.1 / localhost (anti DNS rebinding).
 $ErrorActionPreference = 'Stop'
@@ -22,7 +23,8 @@ Start-Process "http://127.0.0.1:$port/"
 $types = @{
   '.html'='text/html; charset=utf-8'; '.js'='text/javascript; charset=utf-8'; '.css'='text/css; charset=utf-8';
   '.png'='image/png'; '.jpg'='image/jpeg'; '.jpeg'='image/jpeg'; '.svg'='image/svg+xml'; '.ico'='image/x-icon';
-  '.json'='application/json'; '.mp3'='audio/mpeg'; '.txt'='text/plain; charset=utf-8'
+  '.json'='application/json'; '.mp3'='audio/mpeg'; '.txt'='text/plain; charset=utf-8';
+  '.webmanifest'='application/manifest+json'; '.woff2'='font/woff2'; '.rules'='text/plain; charset=utf-8'
 }
 $secHeaders = "X-Content-Type-Options: nosniff`r`nX-Frame-Options: DENY`r`n"
 

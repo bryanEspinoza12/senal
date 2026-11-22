@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#000000">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; object-src 'none'; base-uri 'self'; form-action 'none'">
+<title>Privacidad · SEÑAL</title>
+<link rel="icon" type="image/png" sizes="32x32" href="iconos/favicon-32.png">
+<link rel="apple-touch-icon" href="iconos/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=Rock+Salt&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:#000;color:#e9ebf0;font:16px/1.7 'Inter',system-ui,sans-serif;-webkit-text-size-adjust:100%}
+body{padding:max(28px,env(safe-area-inset-top)) 22px max(60px,env(safe-area-inset-bottom));
+  background:radial-gradient(90% 60% at 85% 0%,rgba(61,92,255,.18),transparent 70%) no-repeat}
+main{max-width:68ch;margin:0 auto}
+a{color:#9fd8ff;text-underline-offset:3px}
+a:focus-visible{outline:2px solid #9fd8ff;outline-offset:3px;border-radius:4px}
+.volver{display:inline-block;font-size:14px;color:#a7adb8;text-decoration:none;padding:10px 0}
+.volver:hover{color:#fff}
+.marca{font-family:'Rock Salt',cursive;font-size:22px;margin-top:28px;color:#fff}
+h1{font-family:'Instrument Serif',Georgia,serif;font-weight:normal;font-size:clamp(44px,9vw,72px);line-height:1;margin:8px 0 14px}
+h1 i{color:#9fd8ff}
+.fecha{font-size:13px;color:#8a909b;letter-spacing:1px}
+.resumen{margin:28px 0 8px;padding:18px 20px;border-radius:16px;background:#0e1018;border:1px solid #1f2433}
+.resumen p+p{margin-top:8px}
+h2{font-family:'Instrument Serif',Georgia,serif;font-weight:normal;font-size:30px;line-height:1.15;margin:42px 0 10px;color:#fff}
+p,li{color:#c3c8d2}
+p+p{margin-top:12px}
+ul{margin:10px 0 0 1.1em}
+li+li{margin-top:6px}
+b{color:#fff;font-weight:600}
+table{width:100%;border-collapse:collapse;margin-top:14px;font-size:14px}
+th,td{text-align:left;padding:10px 8px;border-bottom:1px solid #1f2433;vertical-align:top}
+th{color:#8a909b;font-weight:500;font-size:12px;letter-spacing:2px;text-transform:uppercase}
+td:first-child{color:#fff;white-space:nowrap}
+.pie{margin-top:54px;padding-top:18px;border-top:1px solid #1f2433;font-size:13px;color:#8a909b}
+@media(max-width:560px){td:first-child{white-space:normal}table{font-size:13px}}
+</style>
+</head>
+<body>
+<main>
+  <a class="volver" href="./">← Volver a SEÑAL</a>
+  <p class="marca">señal</p>
+  <h1>Política de <i>privacidad</i></h1>
+  <p class="fecha">ÚLTIMA ACTUALIZACIÓN: 22 DE NOVIEMBRE DE 2026 · VERSIÓN PARA PRUEBAS PRIVADAS</p>
+
+  <div class="resumen">
+    <p><b>En corto:</b> SEÑAL guarda solo lo necesario para funcionar: tu nombre de Google, tus letras, tus ajustes y lo que escuchas en SEÑAL, para mostrarte tus estadísticas. No vendemos tus datos, no hay anuncios y no usamos herramientas de seguimiento.</p>
+    <p>Puedes <b>descargar</b> o <b>borrar</b> todo en cualquier momento desde <b>Mi perfil → Cuenta</b>.</p>
+  </div>
+
+  <h2>Quién está detrás</h2>
+  <p>SEÑAL es un proyecto personal de Bryan Espinoza, en etapa de <b>pruebas privadas</b>: solo pueden entrar con cuenta las personas invitadas. Para cualquier duda o pedido sobre tus datos, escribe en <a href="https://github.com/bryanEspinoza12/senal/issues" rel="noopener">github.com/bryanEspinoza12/senal/issues</a>. No incluyas datos personales en un mensaje público; pide que te contactemos y lo hacemos por privado.</p>
+  <p>SEÑAL <b>no es un producto de Spotify</b> ni está afiliado a Spotify ni a Google. Spotify es una marca de Spotify AB.</p>
+
+  <h2>Qué datos guarda SEÑAL</h2>
+  <table>
+    <thead><tr><th>Dato</th><th>Para qué</th><th>Dónde</th></tr></thead>
+    <tbody>
+      <tr><td>Nombre, correo y foto de Google</td><td>Saber que eres tú y si tienes invitación. Tu foto se muestra solo a ti.</td><td>Tu cuenta (Firebase)</td></tr>
+      <tr><td>Tus letras (.lrc)</td><td>Mostrar las letras que creaste o sincronizaste, en cualquier dispositivo.</td><td>Tu cuenta, o este navegador si no usas cuenta</td></tr>
+      <tr><td>Ajustes</td><td>Recordar tu estilo de letra, visual, efectos, volumen y piel.</td><td>Tu cuenta y este navegador</td></tr>
+      <tr><td>Pieles por artista</td><td>Recordar qué piel elegiste para cada artista.</td><td>Tu cuenta y este navegador</td></tr>
+      <tr><td>Historial de escucha</td><td>Tus estadísticas: canción, artista, género, piel, fecha y cuánto escuchaste. Solo cuenta lo que suena 30 segundos o más en SEÑAL.</td><td>Tu cuenta, o este navegador si no usas cuenta</td></tr>
+      <tr><td>Sesión de Spotify</td><td>Que SEÑAL pueda leer lo que suena y tu biblioteca. Las llaves de acceso no salen de tu navegador.</td><td>Solo este navegador</td></tr>
+    </tbody>
+  </table>
+  <p style="margin-top:14px">SEÑAL <b>no guarda</b> tu contraseña de Google ni de Spotify (las escribes en sus propias páginas), tu biblioteca de Spotify, ni el audio del micrófono o de tu PC: ese sonido se analiza en tu equipo para mover el visualizador y nunca se graba ni se envía.</p>
+
+  <h2>Con quién se comparte</h2>
+  <p>SEÑAL no vende ni alquila datos. Para funcionar usa estos servicios, que reciben solo lo necesario:</p>
+  <ul>
+    <li><b>Google Firebase</b> (inicio de sesión y base de datos): guarda tu cuenta y tus datos. La base de datos está en la región de Santiago de Chile (southamerica-west1).</li>
+    <li><b>Spotify</b>: tu navegador habla directamente con Spotify para saber qué suena, controlar la música y ver tu biblioteca, según los permisos que aceptas al conectarte.</li>
+    <li><b>LRCLIB</b> (lrclib.net): para buscar la letra se le envía el nombre de la canción, el artista, el álbum y la duración. No se le envía nada sobre ti.</li>
+    <li><b>Google Fonts</b>, <b>jsDelivr</b> y <b>Hugging Face</b>: de ahí se descargan las tipografías, las librerías de la app y los modelos de IA para sincronizar o traducir letras. La IA y la traducción funcionan <b>dentro de tu equipo</b>; tu audio y tus letras no se envían a esos servicios.</li>
+  </ul>
+  <p>Como cualquier página web, estos servicios pueden ver tu dirección IP al descargar sus archivos.</p>
+
+  <h2>Cómo se protege</h2>
+  <ul>
+    <li>Todo viaja cifrado (HTTPS).</li>
+    <li>Las reglas de la base de datos permiten que cada persona lea y cambie <b>solo sus propios datos</b>, y solo si tiene invitación.</li>
+    <li>La lista de invitados no se puede leer ni cambiar desde la web.</li>
+  </ul>
+
+  <h2>Cuánto tiempo se guarda</h2>
+  <p>Tus datos se guardan mientras tengas tu cuenta. Si borras tu historial, tus letras o tu cuenta desde <b>Mi perfil</b>, se borran de la base de datos en ese momento. Lo guardado sin cuenta queda en tu navegador hasta que lo borres desde <b>Mi perfil → Cuenta</b> o borres los datos del sitio en tu navegador.</p>
+  <p>Tu correo en la lista de invitados lo puede quitar el responsable si se lo pides.</p>
+
+  <h2>Tus derechos</h2>
+  <p>Puedes <b>ver y descargar</b> tus datos (Mi perfil → Cuenta → Descargar mis datos), <b>corregirlos</b> (tus letras y ajustes se editan en la app), <b>borrarlos</b> (Mi perfil → Cuenta) y <b>oponerte</b> a que se usen, dejando de usar la cuenta o borrándola. También puedes quitar el acceso de SEÑAL a tu Spotify en la página de aplicaciones de tu cuenta de Spotify, y a tu Google en la página de seguridad de tu cuenta de Google.</p>
+
+  <h2>Menores de edad</h2>
+  <p>SEÑAL no está pensado para menores de 14 años. Si tienes menos de esa edad, no lo uses sin permiso de tu madre, padre o tutor.</p>
+
+  <h2>Cambios a esta política</h2>
+  <p>Esta es la versión para las pruebas privadas. Antes de abrir SEÑAL a más personas se publicarán también los términos de uso. Si esta política cambia, se actualizará la fecha de arriba y, si el cambio es importante, lo verás al entrar.</p>
+
+  <p class="pie">SEÑAL v2.0 · <a href="./">Volver a SEÑAL</a></p>
+</main>
+</body>
+</html>
