@@ -1,5 +1,16 @@
-SEÑAL v1.4.2 — otra manera de escuchar música
+SEÑAL v1.5 — otra manera de escuchar música
 ==========================================
+
+NUEVO EN LA v1.5 — EN TU CELULAR
+1. Abre https://bryanespinoza12.github.io/senal/ en el navegador del celular.
+2. Pulsa ♫ > SPOTIFY e inicia sesión.
+3. Pon música en tu app de Spotify y vuelve a SEÑAL: verás la letra
+   sincronizada, la portada y los colores. Pausa, salta y adelanta desde aquí,
+   y elige canciones en ≡ BIBLIOTECA (sonarán en tu app de Spotify).
+4. ◉ MICRÓFONO hace que las ondas sigan la música real que suena en el cuarto.
+La pantalla no se apaga mientras SEÑAL está abierta.
+En el celular no hay "Audio del PC" ni sincronización con IA (eso es en la PC).
+MICRÓFONO también funciona en la PC.
 
 CÓMO ABRIRLA
 1. Descomprime esta carpeta donde quieras (por ejemplo en Documentos).

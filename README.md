@@ -2,7 +2,9 @@
 
 Reproductor web personal conectado a **Spotify** que convierte la música en una experiencia **visual**: letras sincronizadas a pantalla completa, visualizadores de sonido, colores que cambian con la portada de cada canción y un modo inmersivo.
 
-> Proyecto personal. Funciona en Chrome o Edge en una PC con Windows.
+> Proyecto personal. En la PC (Chrome o Edge) suena dentro de la página. En el celular funciona como **acompañante** de la app de Spotify.
+>
+> **Abrir en el celular:** https://bryanespinoza12.github.io/senal/
 
 ## Funciones
 
@@ -13,6 +15,8 @@ Reproductor web personal conectado a **Spotify** que convierte la música en una
 - **Crea tus propias letras**: pégalas y sincronízalas con Enter, o deja que la **IA (Whisper)** lo haga escuchando la canción. Puedes importar y exportar archivos `.lrc`.
 - **7 visualizadores**: Barras neón, Aurora, Orbe, Cordillera, Warp, Vinilo y Pixeles.
 - **Modo inmersivo**: todo se esconde en los bordes y las opciones aparecen al acercar el mouse, con vistas previas animadas.
+- **Modo acompañante (celular)**: la música suena en tu app de Spotify y SEÑAL muestra la letra sincronizada, la portada y los colores. Puedes pausar, saltar, adelantar y elegir canciones desde SEÑAL.
+- **Micrófono**: las ondas siguen la música que suena a tu alrededor.
 - Otras fuentes: **audio del PC**, **archivos MP3** y **demo**.
 
 ## Cómo usarlo
@@ -21,14 +25,22 @@ Reproductor web personal conectado a **Spotify** que convierte la música en una
 2. Haz doble clic en **`iniciar.bat`**. Se abre un pequeño servidor local y el navegador en `http://127.0.0.1:5500/`.
 3. En **♫ MÚSICA → SPOTIFY** inicia sesión con tu cuenta Premium.
 
+### En el celular
+
+1. Abre **https://bryanespinoza12.github.io/senal/** en Chrome o Safari.
+2. Pulsa **♫ → SPOTIFY** e inicia sesión.
+3. Pon música en la app de Spotify y vuelve a SEÑAL. Activa **MICRÓFONO** si quieres que las ondas sigan el sonido real.
+
+> En el celular no funciona la sincronización con IA (necesita la PC). La sincronización a mano sí.
+
 > Si usas VS Code con la extensión **Live Server**, también puedes abrir la carpeta y pulsar *Go Live*.
 
 ### Usar tu propia app de Spotify
 
 El archivo `index.html` trae el **Client ID** de la app de Spotify del autor (es un dato público, no es secreto). Si quieres usar el tuyo:
 
-1. Crea una app en [developer.spotify.com/dashboard](https://developer.spotify.com/dashboard) con la Redirect URI `http://127.0.0.1:5500/` y las APIs *Web API* y *Web Playback SDK*.
-2. Cambia `SPOTIFY_CLIENT_ID` al inicio del `<script>` en `index.html`.
+1. Crea una app en [developer.spotify.com/dashboard](https://developer.spotify.com/dashboard) con las Redirect URI `http://127.0.0.1:5500/` y la de tu GitHub Pages (por ejemplo `https://TU-USUARIO.github.io/senal/`) y las APIs *Web API* y *Web Playback SDK*.
+2. Cambia `SPOTIFY_CLIENT_ID` y la lista `REDIRECTS_OK` al inicio del `<script>` en `index.html`.
 
 En modo desarrollo, Spotify solo permite que la app la usen el dueño y hasta 5 usuarios registrados.
 
@@ -68,6 +80,7 @@ En modo desarrollo, Spotify solo permite que la app la usen el dueño y hasta 5 
 
 ## Versiones
 
+- **v1.5**: funciona en el celular. Publicada en GitHub Pages, modo acompañante de la app de Spotify, visualizador con micrófono y pantalla siempre encendida mientras suena.
 - **v1.4.2**: auditoría de calidad. Letras con palabras largas sin cortes, barra de una fila en el celular, textos más legibles, soporte para "reducir movimiento", lectores de pantalla y teclado, menos trabajo por cuadro y servidor local más seguro (sin salir de la carpeta y solo para 127.0.0.1/localhost).
 - **v1.4.1**: aviso para renovar permisos de Spotify.
 - **v1.4**: biblioteca con canciones, Me gusta, búsqueda, artistas y álbumes.

@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#050506">
 <meta http-equiv="Content-Security-Policy" content="object-src 'none'; base-uri 'none'; form-action 'none'">
-<title>SEÑAL v1.4.2 — otra manera de escuchar música</title>
+<title>SEÑAL v1.5 — otra manera de escuchar música</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;700&family=VT323&display=swap" rel="stylesheet">
 <style>
@@ -188,6 +188,7 @@ body.lib #drawer{transform:none;visibility:visible}
 .note b{color:var(--fg);font-weight:normal}
 #hint{position:fixed;left:calc((100vw - var(--dw))/2);top:80px;transform:translateX(-50%);z-index:60;background:rgba(10,10,12,.92);border:1px solid var(--acc);padding:12px 18px;border-radius:14px;font-size:12px;max-width:560px;line-height:1.6;display:none;backdrop-filter:blur(12px)}
 #hint b{color:var(--acc);font-weight:normal}
+#hint{width:max-content;max-width:min(560px,92vw)}
 
 /* ---------- v1.2: etiqueta de origen de la letra ---------- */
 .ltag{display:inline-block;font-size:10px;letter-spacing:2px;color:#000;background:var(--acc);border-radius:4px;padding:2px 6px;margin-left:8px;vertical-align:1px}
@@ -368,6 +369,7 @@ body.lib .center{width:min(420px,28vw)}
   #stage{top:76px}
   .sheet,.side{left:10px;right:10px;width:auto;top:66px;max-height:calc(100dvh - 80px)}
   .dock{padding-left:14px;padding-right:14px}
+  #hint{left:4vw;right:4vw;width:auto;max-width:none;transform:none;top:auto;bottom:calc(46vh + env(safe-area-inset-bottom));font-size:13px}
 }
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
@@ -380,7 +382,7 @@ body.lib .center{width:min(420px,28vw)}
 </head>
 <body class="crt">
 <div id="loader">
-  <h1>SEÑAL<sup>v1.4.2</sup></h1>
+  <h1>SEÑAL<sup>v1.5</sup></h1>
   <p>otra manera de escuchar música</p>
   <div class="ld-row"><span>SINTONIZANDO</span><span id="ldpct">000</span></div>
   <div id="ldbar"></div>
@@ -393,7 +395,7 @@ body.lib .center{width:min(420px,28vw)}
 <div class="grain" aria-hidden="true"></div><div class="scan" aria-hidden="true"></div><div class="vign" aria-hidden="true"></div>
 
 <header class="ui">
-  <div class="logo" aria-label="SEÑAL">SEÑAL<b>_</b><small>v1.4.2</small></div>
+  <div class="logo" aria-label="SEÑAL">SEÑAL<b>_</b><small>v1.5</small></div>
   <nav>
     <span class="status"><span class="rec" id="stState">● EN VIVO</span> · <b id="hSrc">DEMO</b> · <span id="clock">00:00:00</span></span>
     <button class="hb" data-panel="#pSrc" aria-label="Música: de dónde sale el sonido" aria-expanded="false"><i aria-hidden="true">♫</i><span class="lbl">MÚSICA</span></button>
@@ -409,6 +411,7 @@ body.lib .center{width:min(420px,28vw)}
   <div class="sub">DE DÓNDE SALE EL SONIDO</div>
   <button class="opt" id="sSpot">◉ SPOTIFY<small>Tu música y tus playlists, con letra</small></button>
   <button class="opt" id="sPc">◉ AUDIO DEL PC<small>El visualizador sigue el sonido real</small></button>
+  <button class="opt" id="sMic">◉ MICRÓFONO<small>Las ondas siguen la música que suena en el cuarto</small></button>
   <button class="opt" id="sMp3">◉ ABRIR MP3<small>Nombre tipo "Artista - Canción" para buscar la letra</small></button>
   <button class="opt on" id="sDemo">◉ DEMO<small>Canciones inventadas para probar</small></button>
   <input type="file" id="fileIn" accept="audio/*" hidden>
@@ -495,7 +498,11 @@ body.lib .center{width:min(420px,28vw)}
 //  SEÑAL v1.3 — configuración
 // =====================================================================
 const SPOTIFY_CLIENT_ID = "2d02a46696374c5ea441f000b38d97ce";
-const REDIRECT_URI = "http://127.0.0.1:5500/";
+// v1.5: funciona en tu PC (iniciar.bat) y publicada en GitHub Pages (para el celular)
+const REDIRECT_URI = location.origin + location.pathname.replace(/[^/]*$/, '');
+const REDIRECTS_OK = ['http://127.0.0.1:5500/', 'https://bryanespinoza12.github.io/senal/'];
+// el reproductor web de Spotify no funciona en celulares: ahí SEÑAL acompaña a la app de Spotify
+const IS_MOBILE = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent) || (navigator.maxTouchPoints > 1 && /Macintosh/.test(navigator.userAgent));
 const SCOPES = ['streaming','user-read-email','user-read-private','user-read-playback-state','user-modify-playback-state','user-read-currently-playing','playlist-read-private','playlist-read-collaborative','user-top-read','user-library-read'].join(' ');
 
 const $ = s => document.querySelector(s);
@@ -561,7 +568,7 @@ function detach(){
   if(stream){ stream.getTracks().forEach(tr => tr.stop()); stream = null; }
   liveAudio = false;
 }
-function setSrc(id, label){ ['#sDemo','#sPc','#sMp3','#sSpot'].forEach(s => $(s).classList.toggle('on', s === id)); $('#hSrc').textContent = label; closeMenus(); }
+function setSrc(id, label){ ['#sDemo','#sPc','#sMic','#sMp3','#sSpot'].forEach(s => $(s).classList.toggle('on', s === id)); $('#hSrc').textContent = label; closeMenus(); }
 
 // =====================================================================
 //  Fuentes: demo, MP3, audio del PC
@@ -573,26 +580,28 @@ function loadDemo(i){
   setTrack(d.t, d.a + ' · ' + d.bpm + ' BPM', 'DEMO · CANCIÓN INVENTADA');
   loadLyricsFor({key:'demo:' + cur, title:d.t, artist:d.a, album:'', dur:d.dur}, () => { lyrSrc = 'demo'; setLyrics(demoLRC(d), 'synced'); });
 }
-async function capturePC(){
+async function capturePC(kind){
   closeMenus();
+  const mic = kind === 'mic', btn = mic ? '#sMic' : '#sPc', NAME = mic ? 'MICRÓFONO' : 'AUDIO DEL PC';
   try {
     ensureAC();
-    const st = await navigator.mediaDevices.getDisplayMedia({video:true, audio:{echoCancellation:false, noiseSuppression:false, autoGainControl:false}});
+    const st = mic ? await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false, noiseSuppression:false, autoGainControl:false}})
+                   : await navigator.mediaDevices.getDisplayMedia({video:true, audio:{echoCancellation:false, noiseSuppression:false, autoGainControl:false}});
     if(!st.getAudioTracks().length){ st.getTracks().forEach(tr => tr.stop()); hint('No se compartió audio. Elige <b>Toda la pantalla</b> y activa <b>Compartir también el audio del sistema</b>.', 8000); return; }
     if(source === 'spotify'){
       if(stream) stream.getTracks().forEach(tr => tr.stop());
       if(curNode){ try { curNode.disconnect(); } catch(e){} }
       stream = st; curNode = AC.createMediaStreamSource(st); curNode.connect(analyser); liveAudio = true;
-      $('#hSrc').textContent = 'SPOTIFY + AUDIO REAL'; $('#sPc').classList.add('on');
-      st.getAudioTracks()[0].onended = () => { liveAudio = false; stream = null; $('#hSrc').textContent = 'SPOTIFY'; $('#sPc').classList.remove('on'); };
-      hint('Listo: ahora todo reacciona al sonido real de tu PC.', 4000); return;
+      $('#hSrc').textContent = 'SPOTIFY + ' + NAME; $('#sPc').classList.remove('on'); $('#sMic').classList.remove('on'); $(btn).classList.add('on');
+      st.getAudioTracks()[0].onended = () => { liveAudio = false; stream = null; $('#hSrc').textContent = 'SPOTIFY'; $(btn).classList.remove('on'); };
+      hint(mic ? 'Listo: las ondas siguen lo que escucha el micrófono. Sube el volumen de la música.' : 'Listo: ahora todo reacciona al sonido real de tu PC.', 4000); return;
     }
     detach(); stream = st; curNode = AC.createMediaStreamSource(st); curNode.connect(analyser); liveAudio = true;
-    source = 'pc'; playing = true; setSrc('#sPc', 'AUDIO DEL PC'); updPlay();
+    source = 'pc'; playing = true; setSrc(btn, NAME); updPlay();
     applyPalette({acc:'#c6ff3d', acc2:'#ff3d6e'}); drawGenCover({acc:'#c6ff3d', acc2:'#ff3d6e', seed:3});
-    setTrack('Audio del PC', 'Lo que esté sonando en tu computadora', 'EN VIVO'); curMeta = null; lyrSrc = 'none'; setLyrics(null, 'none');
+    setTrack(mic ? 'Micrófono' : 'Audio del PC', mic ? 'Lo que suena a tu alrededor' : 'Lo que esté sonando en tu computadora', 'EN VIVO'); curMeta = null; lyrSrc = 'none'; setLyrics(null, 'none');
     st.getAudioTracks()[0].onended = () => setDemo();
-  } catch(e){ hint('Captura cancelada o no permitida por el navegador.', 4000); }
+  } catch(e){ hint(mic ? 'No se pudo usar el micrófono. Revisa que le diste permiso al navegador.' : 'Captura cancelada o no permitida por el navegador.', 5000); }
 }
 let curFile = null;
 function openMP3(f){
@@ -879,23 +888,27 @@ function togglePlay(){
   if(source === 'mp3' && mediaEl){ if(mediaEl.paused){ ensureAC(); mediaEl.play(); playing = true; } else { mediaEl.pause(); playing = false; } }
   else if(source === 'demo'){ playing = !playing; }
   else if(source === 'spotify' && spPlayer){ if(spPlayer.activateElement) spPlayer.activateElement(); spPlayer.togglePlay(); return; }
-  else hint('En modo Audio del PC, pausa la música desde la app que suena.', 3000);
+  else if(source === 'spotify' && spRemote){ spRemoteCmd(playing ? 'pause' : 'play'); return; }
+  else hint('En modo Audio del PC o Micrófono, pausa la música desde la app que suena.', 3000);
   updPlay();
 }
 $('#bPlay').onclick = togglePlay;
-$('#bNext').onclick = () => { if(source === 'demo') loadDemo(cur+1); else if(source === 'spotify' && spPlayer) spPlayer.nextTrack(); else if(source === 'mp3' && mediaEl) mediaEl.currentTime = Math.min(mediaEl.duration || 0, mediaEl.currentTime + 10); };
-$('#bPrev').onclick = () => { if(source === 'demo') loadDemo(cur-1); else if(source === 'spotify' && spPlayer) spPlayer.previousTrack(); else if(source === 'mp3' && mediaEl) mediaEl.currentTime = Math.max(0, mediaEl.currentTime - 10); };
+$('#bNext').onclick = () => { if(source === 'demo') loadDemo(cur+1); else if(spRemote) spRemoteCmd('next'); else if(source === 'spotify' && spPlayer) spPlayer.nextTrack(); else if(source === 'mp3' && mediaEl) mediaEl.currentTime = Math.min(mediaEl.duration || 0, mediaEl.currentTime + 10); };
+$('#bPrev').onclick = () => { if(source === 'demo') loadDemo(cur-1); else if(spRemote) spRemoteCmd('previous'); else if(source === 'spotify' && spPlayer) spPlayer.previousTrack(); else if(source === 'mp3' && mediaEl) mediaEl.currentTime = Math.max(0, mediaEl.currentTime - 10); };
 $('#pbar').onclick = e => {
   const r = e.currentTarget.getBoundingClientRect(), k = (e.clientX - r.left)/r.width;
   if(source === 'demo') demoPos = k*DEMO[cur].dur;
+  else if(spRemote && spState) spRemoteSeek(k*spState.duration);
   else if(source === 'spotify' && spPlayer && spState) spPlayer.seek(Math.floor(k*spState.duration));
   else if(source === 'mp3' && mediaEl && mediaEl.duration) mediaEl.currentTime = k*mediaEl.duration;
 };
 $('#pbar').addEventListener('keydown', e => { if(e.key === 'ArrowLeft' || e.key === 'ArrowRight'){ e.preventDefault(); e.stopPropagation(); seekBy(e.key === 'ArrowRight' ? 5 : -5); } });
 $('#vol').value = volume;
-$('#vol').oninput = e => { volume = +e.target.value; store.set('senal_vol', volume); if(mediaEl) mediaEl.volume = volume/100; if(spPlayer) spPlayer.setVolume(volume/100); };
+$('#vol').oninput = e => { volume = +e.target.value; store.set('senal_vol', volume); if(mediaEl) mediaEl.volume = volume/100; if(spPlayer) spPlayer.setVolume(volume/100); if(spRemote){ clearTimeout(volTimer); volTimer = setTimeout(() => api('/me/player/volume?volume_percent=' + volume, {method:'PUT'}).catch(() => {}), 350); } };
 $('#sDemo').onclick = setDemo;
-$('#sPc').onclick = capturePC;
+$('#sPc').onclick = () => capturePC('pc');
+$('#sMic').onclick = () => capturePC('mic');
+if(!(navigator.mediaDevices && navigator.mediaDevices.getDisplayMedia) || IS_MOBILE) $('#sPc').style.display = 'none';
 $('#sMp3').onclick = () => $('#fileIn').click();
 $('#fileIn').onchange = e => { if(e.target.files[0]) openMP3(e.target.files[0]); e.target.value = ''; };
 $('#sSpot').onclick = async () => { closeMenus(); if(source === 'spotify') return; if(await getToken()) spStart(); else spLogin(); };
@@ -940,7 +953,7 @@ document.addEventListener('keydown', e => {
 // =====================================================================
 function b64url(buf){ return btoa(String.fromCharCode(...new Uint8Array(buf))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,''); }
 async function spLogin(){
-  if(location.origin + '/' !== REDIRECT_URI){ hint('Para conectar Spotify abre SEÑAL con <b>iniciar.bat</b>, así la dirección será <b>' + REDIRECT_URI + '</b>.', 10000); return; }
+  if(!REDIRECTS_OK.includes(REDIRECT_URI)){ hint('Para conectar Spotify abre SEÑAL con <b>iniciar.bat</b> (en tu PC) o desde <b>bryanespinoza12.github.io/senal</b> (en el celular).', 10000); return; }
   const verifier = b64url(crypto.getRandomValues(new Uint8Array(64)));
   const challenge = b64url(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(verifier)));
   store.set('sp_verifier', verifier);
@@ -979,12 +992,13 @@ async function handleRedirect(){
 //  Spotify: reproductor dentro de la página
 // =====================================================================
 let spPlayer = null, spDevice = null, spState = null, spStateAt = 0, lastTrackId = null;
-function leaveSpotify(){ if(spPlayer){ try { spPlayer.disconnect(); } catch(e){} } spPlayer = null; spDevice = null; spState = null; lastTrackId = null; }
+function leaveSpotify(){ clearInterval(spPoll); spPoll = null; spRemote = false; if(spPlayer){ try { spPlayer.disconnect(); } catch(e){} } spPlayer = null; spDevice = null; spState = null; lastTrackId = null; }
 function loadSDK(){ return new Promise(res => { if(window.Spotify) return res(); window.onSpotifyWebPlaybackSDKReady = res; const s = document.createElement('script'); s.src = 'https://sdk.scdn.co/spotify-player.js'; document.head.appendChild(s); }); }
 function scopesOk(){ const sc = store.get('sp_scope'); return !!sc && SCOPES.split(' ').every(x => sc.split(' ').includes(x)); }
 async function spStart(){
   if(!(await getToken())) return;
   if(!scopesOk()) setTimeout(() => hint('SEÑAL se actualizó y necesita <b>renovar los permisos de Spotify</b> para ver tus Me gusta. <button id="reAuth3" style="margin-left:8px">RENOVAR</button>', 15000), 1500), setTimeout(() => { const b = $('#reAuth3'); if(b) b.onclick = () => { spLogout(); store.del('sp_scope'); spLogin(); }; }, 1600);
+  if(IS_MOBILE){ spRemoteStart(); return; }
   await loadSDK(); detach(); leaveSpotify();
   source = 'spotify'; playing = false; updPlay(); setSrc('#sSpot', 'SPOTIFY');
   setTrack('Conectando…', 'Preparando el reproductor', 'SPOTIFY'); curMeta = null; lyrSrc = 'none'; setLyrics(null, 'none');
@@ -1002,16 +1016,80 @@ async function spStart(){
     if(!st) return;
     spState = st; spStateAt = performance.now(); playing = !st.paused; updPlay(); markPlaying();
     const tr = st.track_window && st.track_window.current_track;
-    if(tr && tr.id !== lastTrackId){
-      lastTrackId = tr.id;
-      setTrack(tr.name, tr.artists.map(a => a.name).join(', ') + ' · ' + tr.album.name, 'SONANDO EN SPOTIFY');
-      const imgs = [...(tr.album.images || [])].sort((a,b) => (b.width||0) - (a.width||0)); if(imgs[0]) coverFromURL(imgs[0].url);
-      const meta = {key:'sp:' + tr.id, title:tr.name, artist:tr.artists[0] ? tr.artists[0].name : '', album:tr.album.name, dur:st.duration/1000};
-      loadLyricsFor(meta, () => findLyrics(meta));
-    }
+    if(tr && tr.id !== lastTrackId) spNewTrack(tr, st.duration, 'SONANDO EN SPOTIFY');
   });
   if(!(await spPlayer.connect())) hint('No se pudo iniciar el reproductor de Spotify en este navegador.', 6000);
 }
+function spNewTrack(tr, durMs, kicker){
+  lastTrackId = tr.id;
+  setTrack(tr.name, (tr.artists || []).map(a => a.name).join(', ') + (tr.album ? ' · ' + tr.album.name : ''), kicker);
+  const imgs = [...((tr.album && tr.album.images) || [])].sort((a,b) => (b.width||0) - (a.width||0)); if(imgs[0]) coverFromURL(imgs[0].url);
+  const meta = {key:'sp:' + tr.id, title:tr.name, artist:tr.artists && tr.artists[0] ? tr.artists[0].name : '', album:tr.album ? tr.album.name : '', dur:durMs/1000};
+  loadLyricsFor(meta, () => findLyrics(meta));
+}
+
+// =====================================================================
+//  v1.5 · MODO ACOMPAÑANTE (celular): la música suena en la app de Spotify
+//  y SEÑAL pregunta cada pocos segundos qué suena y en qué segundo va.
+// =====================================================================
+let spRemote = false, spPoll = null, spPollBusy = false;
+function spRemoteStart(){
+  detach(); leaveSpotify();
+  source = 'spotify'; spRemote = true; playing = false; updPlay(); setSrc('#sSpot', 'SPOTIFY · ACOMPAÑANTE');
+  setTrack('Pon música en tu app de Spotify', 'SEÑAL la sigue: letra, portada y colores', 'MODO ACOMPAÑANTE'); curMeta = null; lyrSrc = 'none'; setLyrics(null, 'none');
+  hint('<b>Modo acompañante</b>: la música suena en tu <b>app de Spotify</b> y SEÑAL muestra la letra y los visuales. Puedes elegir canciones desde la biblioteca de aquí. Para que las ondas sigan el sonido real, activa <b>MICRÓFONO</b>.', 9000);
+  saveMe(); spPollNow(); spPoll = setInterval(spPollNow, 2500);
+}
+async function spPollNow(){
+  if(!spRemote || spPollBusy || document.hidden) return;
+  spPollBusy = true;
+  try {
+    const t0 = performance.now();
+    const j = await api('/me/player?additional_types=track');
+    const half = (performance.now() - t0)/2;
+    if(!spRemote) return;
+    if(j && j.device) spDevice = j.device.id;
+    if(!j || !j.item || j.item.type !== 'track'){
+      if(playing){ playing = false; updPlay(); }
+      if(lastTrackId === null && !j) setTrack('Pon música en tu app de Spotify', 'Abre Spotify, dale play y vuelve aquí', 'MODO ACOMPAÑANTE');
+      return;
+    }
+    spState = {position: j.progress_ms + (j.is_playing ? half : 0), duration: j.item.duration_ms, paused: !j.is_playing, track_window:{current_track:{uri:j.item.uri}}};
+    spStateAt = performance.now();
+    if(playing !== j.is_playing){ playing = j.is_playing; updPlay(); }
+    markPlaying();
+    if(j.item.id !== lastTrackId) spNewTrack(j.item, j.item.duration_ms, 'SONANDO EN TU SPOTIFY');
+  } catch(e){
+    if(/401|token|sesión/i.test(e.message)){ hint('Tu sesión de Spotify expiró. Vuelve a conectar desde ♫ MÚSICA.', 6000); leaveSpotify(); }
+  } finally { spPollBusy = false; }
+}
+async function spRemoteCmd(cmd){
+  try {
+    if(cmd === 'play' || cmd === 'pause'){ playing = cmd === 'play'; if(spState){ spState.position = songSec()*1000; spStateAt = performance.now(); spState.paused = !playing; } updPlay(); await api('/me/player/' + cmd, {method:'PUT'}); }
+    else await api('/me/player/' + cmd, {method:'POST'});
+  } catch(e){ spRemoteErr(e); }
+  setTimeout(spPollNow, 450);
+}
+async function spRemoteSeek(ms){
+  ms = Math.max(0, Math.floor(ms));
+  if(spState){ spState.position = ms; spStateAt = performance.now(); }
+  try { await api('/me/player/seek?position_ms=' + ms, {method:'PUT'}); } catch(e){ spRemoteErr(e); }
+  setTimeout(spPollNow, 450);
+}
+function spRemoteErr(e){
+  if(/NO_ACTIVE_DEVICE|404|no active/i.test(e.message)) hint('Abre la <b>app de Spotify</b> y dale play una vez; luego podrás controlarla desde aquí.', 6000);
+  else if(/restrict|403|premium/i.test(e.message)) hint('Spotify no dejó hacer eso desde aquí. Hazlo en la app de Spotify.', 5000);
+  else hint('Spotify: ' + esc(e.message), 5000);
+}
+let volTimer = null;
+document.addEventListener('visibilitychange', () => { if(!document.hidden && spRemote) spPollNow(); });
+
+// pantalla encendida mientras suena (útil en el celular para leer la letra)
+let wakeLock = null;
+async function keepAwake(){ try { if('wakeLock' in navigator && !wakeLock && !document.hidden){ wakeLock = await navigator.wakeLock.request('screen'); wakeLock.addEventListener('release', () => { wakeLock = null; }); } } catch(e){} }
+['click','touchend','keydown'].forEach(ev => addEventListener(ev, keepAwake, {passive:true}));
+document.addEventListener('visibilitychange', () => { if(!document.hidden) keepAwake(); });
+
 // =====================================================================
 //  v1.4 · BIBLIOTECA: playlists, canciones, Me gusta, búsqueda, álbumes y artistas
 // =====================================================================
@@ -1174,12 +1252,17 @@ $('#srchX').onclick = () => { $('#srch').value = ''; $('#srchBox').classList.rem
 function openSearch(){ closeMenus(); setLib(true); if(!libCur) libGo({v:'pl'}, true); setTimeout(() => $('#srch').focus(), 120); }
 $('#bSearch').onclick = e => { e.stopPropagation(); openSearch(); };
 async function spQueue(t){
-  if(!spDevice){ hint('Primero conecta Spotify.', 3000); return; }
+  if(!spDevice){ hint(spRemote ? 'Abre la app de Spotify y dale play una vez.' : 'Primero conecta Spotify.', 3000); return; }
   try { await api('/me/player/queue?' + new URLSearchParams({uri:t.uri, device_id:spDevice}), {method:'POST'}); hint('Agregada a la cola: <b>' + esc(t.name) + '</b>', 2500); }
   catch(e){ hint('No se pudo agregar a la cola: ' + esc(e.message), 5000); }
 }
 async function saveMe(){ try { const me = await api('/me'); if(me && me.id) store.set('sp_me', me.id); } catch(e){} }
 async function spPlay(body){
+  if(spRemote){
+    try { await api('/me/player/play' + (spDevice ? '?device_id=' + spDevice : ''), {method:'PUT', body:JSON.stringify(body)}); setTimeout(spPollNow, 600); }
+    catch(e){ spRemoteErr(e); }
+    return;
+  }
   if(!spDevice){ if(source !== 'spotify'){ hint('Conectando Spotify…', 3000); spStart(); } else hint('El reproductor todavía se está preparando, espera un segundo.', 3000); return; }
   try { if(spPlayer.activateElement) await spPlayer.activateElement(); await api('/me/player/play?device_id=' + spDevice, {method:'PUT', body:JSON.stringify(body)}); }
   catch(e){ hint('No se pudo reproducir: ' + esc(e.message), 6000); }
@@ -1193,6 +1276,7 @@ let ED = null;
 function fmtL(s){ s = Math.max(0, s || 0); const m = Math.floor(s/60), r = s - m*60; return String(m).padStart(2,'0') + ':' + r.toFixed(2).padStart(5,'0'); }
 function seekBy(d){
   if(source === 'demo') demoPos = Math.max(0, Math.min(DEMO[cur].dur - .1, demoPos + d));
+  else if(spRemote && spState) spRemoteSeek((songSec() + d)*1000);
   else if(source === 'spotify' && spPlayer && spState) spPlayer.seek(Math.max(0, Math.floor((songSec() + d)*1000)));
   else if(source === 'mp3' && mediaEl) mediaEl.currentTime = Math.max(0, mediaEl.currentTime + d);
 }
@@ -1203,7 +1287,7 @@ function edOpen(){
   ED = {lines: has ? LYR.filter(l => l.text).map(l => ({text:l.text, t: lyrKind === 'synced' ? l.t : null})) : [], target:0, step:1, key:curMeta.key};
   $('#edSong').textContent = curMeta.title + (curMeta.artist ? ' — ' + curMeta.artist : '');
   edReturn = document.activeElement; $('#editor').classList.add('open'); edStep1(); setTimeout(() => { const t = $('#edText') || $('#edClose'); t.focus({preventScroll:true}); }, 30);
-  if(source === 'mp3' || source === 'spotify') aiPreload();
+  if(source === 'mp3' || (source === 'spotify' && !spRemote && !IS_MOBILE)) aiPreload();
 }
 let edReturn = null;
 function edClose(){ if(AI.busy || AI.rec){ aiCancel(); } $('#editor').classList.remove('open'); ED = null; if(edReturn && edReturn.isConnected) edReturn.focus({preventScroll:true}); edReturn = null; }
@@ -1497,6 +1581,7 @@ function aiStart(){
   if(!ED || !ED.lines.length){ hint('Primero pega la letra.', 3000); return; }
   if(source === 'demo'){ hint('Las canciones demo no tienen voz real. Usa la IA con <b>Spotify</b> o un <b>MP3</b>.', 6000); return; }
   if(source !== 'mp3' && source !== 'spotify'){ hint('La IA necesita una canción de <b>Spotify</b> o un <b>MP3</b>.', 5000); return; }
+  if(spRemote){ hint('La sincronización con IA necesita la <b>PC</b>: el celular no puede compartir el audio de Spotify. Aquí puedes sincronizar <b>a mano con Enter</b>.', 7000); return; }
   if(source === 'spotify' && !spState){ hint('Primero pon a sonar la canción en SEÑAL desde tu biblioteca.', 5000); return; }
   edSetStep('ai'); AI.cancel = false; AI.words = []; AI.sent = 0; AI.done = 0; AI.queue = Promise.resolve();
   const live = source === 'spotify';
