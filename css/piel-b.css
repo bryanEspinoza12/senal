@@ -1,0 +1,60 @@
+/* SEÑAL v2 · PIEL B · "Cromo" (electrónica, pop, dance, K-pop)
+   Letra cromada gigante al centro, verde lima eléctrico, piso de rejilla y portadas en carrusel 3D. */
+[data-piel="b"]{--fondo:#101213;--texto:#f1f2ee;--suave:#b9bdb6;--tenue:#8b9089;--linea:rgba(255,255,255,.14);--cap:rgba(255,255,255,.06);--capH:rgba(255,255,255,.12);
+  --fDisplay:'Archivo','Inter',sans-serif;--fMano:'Instrument Serif',Georgia,serif;--borde:#d4ff3a;--lima:#d4ff3a;
+  font-family:'Archivo','Inter',sans-serif}
+body[data-piel="b"]{background:linear-gradient(180deg,#0e1011 0%,#16191b 52%,#22262a 53%,#0c0d0e 100%)}
+[data-piel="b"] .neon{display:none}
+
+[data-piel="b"] .logo{font-family:'Archivo','Inter',sans-serif;font-weight:900;font-size:22px;letter-spacing:6px;text-transform:uppercase}
+[data-piel="b"] .logo::after{content:'.';color:var(--lima)}
+[data-piel="b"] .etiqueta{font-size:12px;font-weight:600;color:var(--suave);border:1px solid rgba(255,255,255,.16);border-radius:999px;padding:5px 12px}
+[data-piel="b"] .cap{border:1px solid rgba(255,255,255,.16);font-weight:600;font-size:13px}
+[data-piel="b"] .cap.on,[data-piel="b"] .cap[aria-expanded="true"]{background:var(--lima);border-color:var(--lima);color:#101213}
+[data-piel="b"] .cap.grupo{border:0;background:transparent;gap:12px;height:auto}
+[data-piel="b"] .cap.grupo button{border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.06)}
+[data-piel="b"] #bPlay{width:64px;height:64px;border:0;background:linear-gradient(180deg,#fff,#b9bec2);color:#101213;box-shadow:0 0 calc(24px + var(--pulso,0) * 30px) rgba(212,255,58,.45)}
+[data-piel="b"] .progreso .lleno,[data-piel="b"] .progreso .punto{background:var(--lima)}
+[data-piel="b"] .progreso .punto{box-shadow:0 0 12px var(--lima)}
+[data-piel="b"] .titulo{font-family:'Instrument Serif',Georgia,serif;font-size:22px;font-weight:400}
+[data-piel="b"] .hoja,[data-piel="b"] .lado{background:rgba(16,18,19,.9);border-color:rgba(255,255,255,.16)}
+[data-piel="b"] .opt.on{background:var(--lima)}
+
+/* carrusel de portadas, abajo al centro */
+@media(min-width:1181px){[data-piel="b"] .tarjetas{left:0;right:var(--dw);top:auto;bottom:150px;width:auto;height:180px;display:flex;justify-content:center;align-items:flex-end}}
+.cf-b{display:flex;align-items:flex-end;gap:18px;perspective:900px}
+.cf-it{position:relative;display:block;border-radius:14px;overflow:hidden;background:#1a1d1f;flex:none;transition:transform .45s var(--sal-out),opacity .3s}
+.cf-it canvas,.cf-it img{display:block;width:100%;height:100%;object-fit:cover}
+.cf-it .cf-txt{display:none}
+.cf-it.p0,.cf-it.p4{width:96px;height:96px;opacity:.55}
+.cf-it.p1,.cf-it.p3{width:120px;height:120px;opacity:.82}
+.cf-it.p0{transform:rotateY(32deg) translateZ(-60px)}.cf-it.p4{transform:rotateY(-32deg) translateZ(-60px)}
+.cf-it.p1{transform:rotateY(18deg) translateZ(-20px)}.cf-it.p3{transform:rotateY(-18deg) translateZ(-20px)}
+.cf-it.p2{width:150px;height:150px;border-radius:16px;box-shadow:0 0 0 2px var(--lima),0 30px 70px rgba(0,0,0,.6);-webkit-box-reflect:below 6px linear-gradient(transparent 70%,rgba(0,0,0,.25))}
+.cf-it.sonando{opacity:1;box-shadow:0 0 0 2px var(--lima)}
+@media(hover:hover) and (pointer:fine){.cf-it:not(.p2):hover{transform:translateY(-10px) scale(1.06);opacity:1}}
+
+/* letra "de la piel": centrada, cromada, la palabra que suena en lima */
+@media(min-width:1181px){[data-piel="b"].estilo-lirico:not(.lib) .escena{bottom:350px}}
+[data-piel="b"] .lirico{left:4vw;right:calc(4vw);width:auto;align-items:center;text-align:center}
+[data-piel="b"] .lirico .foto,[data-piel="b"] .lirico .nombre{display:none}
+[data-piel="b"] .lirico .artista{display:block}
+[data-piel="b"] .lirico .antes{margin:0;font-family:'Instrument Serif',Georgia,serif;font-style:italic;font-size:clamp(18px,1.9vw,26px);color:#c9cdc4}
+[data-piel="b"] .lirico .actual{margin-top:min(22px,2.5vh);font-family:'Archivo','Inter',sans-serif;font-weight:900;text-transform:uppercase;letter-spacing:-.02em;font-size:clamp(44px,min(8.6vw,11.5vh),150px);line-height:.9;transform:none;
+  -webkit-box-reflect:below -4px linear-gradient(transparent 62%,rgba(0,0,0,.18))}
+[data-piel="b"] .lirico .actual .w{color:rgba(255,255,255,.14);-webkit-text-stroke:0;text-shadow:none}
+[data-piel="b"] .lirico .actual .w.on{background:linear-gradient(180deg,#fff 0%,#c7ccd0 38%,#5c6266 52%,#e7eaec 64%,#8d9397 100%);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:none}
+[data-piel="b"] .lirico .actual .w.nw{background:none;color:var(--lima);text-shadow:0 0 40px rgba(212,255,58,.45)}
+[data-piel="b"] .lirico .actual.pausa{font-size:48px;color:var(--tenue)}
+[data-piel="b"] .lirico .sigue{margin-top:min(44px,4.5vh);font-family:'Archivo','Inter',sans-serif;font-weight:600;font-size:14px;letter-spacing:3px;text-transform:uppercase;color:var(--suave)}
+[data-piel="b"] .lirico .sigue::before{content:'SIGUE → '}
+[data-piel="b"] .lirico .tr{color:var(--lima);font-weight:600;letter-spacing:0}
+[data-piel="b"] .grande{text-align:center}
+[data-piel="b"] .grande .acts{justify-content:center}
+[data-piel="b"] .grande .t{font-weight:900;letter-spacing:-.02em}
+
+@media(max-width:760px){
+  [data-piel="b"] .lirico{left:16px;right:16px}
+  [data-piel="b"] .lirico .actual{font-size:clamp(34px,min(12vw,8vh),64px)}
+  [data-piel="b"] #bPlay{width:54px;height:54px}
+}

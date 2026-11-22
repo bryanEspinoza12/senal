@@ -1,0 +1,43 @@
+/* SEÑAL v2 · lo común a todas las pieles: estática de cambio, panel "Piel ▾" y la variante roja de D */
+
+/* estática de TV al cambiar de piel */
+#estatica{position:fixed;inset:0;width:100%;height:100%;z-index:42;pointer-events:none;opacity:0;image-rendering:pixelated;display:none}
+#estatica.ver{display:block}
+
+/* solo la piel D usa título deslizante y garabatos */
+body:not([data-piel="d"]) #marquesina,body:not([data-piel="d"]) #garabatos{display:none}
+/* el estilo de letra "de la piel" oculta el contador de línea salvo en Transmisión */
+.lirico .kick{display:none}
+
+/* variante roja de Video lírico (corridos, regional mexicano) */
+body[data-variante="rojo"]{--acc:#c8141c;--acc2:#ff6a55;--borde:#ff4a3a}
+body[data-variante="rojo"] .neon{box-shadow:0 0 0 2px #ff2a2a,0 0 calc(40px + var(--pulso) * 60px) rgba(255,40,30,.7)}
+body[data-variante="rojo"] .logo::after{content:' ✦';color:#ff4a3a;font-size:.6em;vertical-align:super}
+
+/* panel Piel */
+.piel-ahora{font-size:13px;color:var(--suave);margin:12px 0 14px;line-height:1.5}
+.piel-ahora b{color:var(--texto);font-weight:600}
+#pPiel .opt{position:relative;padding-left:52px}
+#pPiel .opt:not([data-modo]){padding-left:14px}
+#pPiel .opt[data-modo="auto"]{padding-left:14px}
+.muestra{position:absolute;left:12px;top:50%;width:28px;height:28px;margin-top:-14px;border-radius:8px;border:1px solid rgba(255,255,255,.18)}
+.m-a{background:repeating-linear-gradient(0deg,rgba(0,0,0,.45) 0 1px,transparent 1px 3px),radial-gradient(circle at 40% 40%,#3b1512,#070707);box-shadow:inset 0 -3px 0 #ff4b3e;border-radius:6px}
+.m-b{background:linear-gradient(180deg,#fff 0,#c7ccd0 38%,#5c6266 52%,#e7eaec 64%,#8d9397 100%);box-shadow:inset 0 -4px 0 #d4ff3a;border-radius:999px}
+.m-c{background:radial-gradient(rgba(185,164,255,.6) 1px,transparent 1px) 0 0/6px 6px,#1b1726;box-shadow:inset 8px 8px 0 -2px #f3f0ff}
+.m-d{background:radial-gradient(circle at 70% 40%,#3d5cff,#000 70%)}
+.m-dr{background:radial-gradient(circle at 70% 40%,#c8141c,#000 70%)}
+.pielB .lbl+.lbl{margin-left:-4px;opacity:.6}
+@media(max-width:1180px){.pielB .lbl{display:none}}
+
+/* celulares: la barra tiene más botones, se compacta */
+@media(max-width:760px){
+  .barra .acciones{gap:4px}
+  .hb,.cuentaB{width:38px;min-width:38px;height:38px}
+  .barra .logo{font-size:17px}
+  #bBuscar{display:none}   /* en el celular se busca desde la Biblioteca */
+}
+@media(max-width:380px){.barra .logo{display:none}}
+
+/* el efecto CRT es más suave sobre las pieles claras o metálicas */
+body.crt[data-piel="c"] .lineas{opacity:.3}
+body.crt[data-piel="b"] .lineas{opacity:.6}

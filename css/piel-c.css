@@ -1,0 +1,93 @@
+/* SEÑAL v2 · PIEL C · "Escritorio" (lo-fi, acústico, baladas, jazz, instrumental)
+   Un escritorio tranquilo: cuadrícula de puntos, tarjetas redondeadas, letra en una hoja clara y lila suave. */
+[data-piel="c"]{--fondo:#0d0b14;--texto:#f3f0ff;--suave:#a49cc0;--tenue:#7d7596;--linea:#332c47;--cap:#1b1726;--capH:#262036;
+  --fDisplay:'Space Grotesk','Inter',sans-serif;--fMano:'Silkscreen',ui-monospace,monospace;--borde:#b9a4ff;--lila:#b9a4ff;
+  font-family:'Space Grotesk','Inter',sans-serif}
+body[data-piel="c"]{background-color:#0d0b14;background-image:radial-gradient(rgba(185,164,255,.16) 1px,transparent 1px);background-size:22px 22px}
+[data-piel="c"] .neon{display:none}
+
+[data-piel="c"] .barra{padding:max(28px,var(--seg-arr)) 36px 0}
+[data-piel="c"] .logo{font-family:'Silkscreen',ui-monospace,monospace;font-size:26px}
+[data-piel="c"] .etiqueta{font-family:'VT323',ui-monospace,monospace;font-size:24px;color:var(--lila)}
+[data-piel="c"] .etiqueta::before{content:'> '}
+[data-piel="c"] .etiqueta::after{content:'▌';animation:cCursor 1s steps(2) infinite}
+@keyframes cCursor{50%{opacity:0}}
+[data-piel="c"] .cap{border-radius:12px;border:1px solid var(--linea)}
+[data-piel="c"] .cap.on,[data-piel="c"] .cap[aria-expanded="true"]{background:var(--lila);border-color:var(--lila);color:#0d0b14}
+[data-piel="c"] .cap.grupo{border:0;background:transparent;gap:10px;height:auto}
+[data-piel="c"] .cap.grupo button{border-radius:14px;background:var(--capH)}
+[data-piel="c"] #bPlay{width:60px;height:60px;border-radius:18px;background:var(--texto);color:#0d0b14}
+[data-piel="c"] .cuentaB .av{border-radius:10px}
+[data-piel="c"] .opt{border-radius:12px}
+[data-piel="c"] .opt.on{background:var(--lila)}
+[data-piel="c"] .hoja,[data-piel="c"] .lado{background:rgba(22,19,33,.96);border-color:var(--linea);border-radius:26px}
+[data-piel="c"] .hoja h4,[data-piel="c"] .lado h4{font-size:22px}
+
+/* el reproductor es una tarjeta más */
+[data-piel="c"] .controles{left:36px;right:calc(var(--dw) + 36px);bottom:max(24px,var(--seg-aba));background:#1b1726;border:1px solid var(--linea);border-radius:26px;padding:14px 22px 16px}
+[data-piel="c"] .progreso .lleno{background:var(--lila)}
+[data-piel="c"] .progreso::before{background:var(--linea)}
+[data-piel="c"] .progreso .punto{background:var(--texto)}
+[data-piel="c"] .mini{border-radius:12px}
+[data-piel="c"] .titulo{font-weight:700;font-size:17px}
+body[data-piel="c"].quieto .controles{background:transparent;border-color:transparent}
+
+/* mosaico a la derecha de la letra */
+@media(min-width:1181px){
+  [data-piel="c"].estilo-lirico:not(.lib) .escena{left:36px;right:calc(50% + 9px);top:96px;bottom:178px}
+  [data-piel="c"] .tarjetas{left:calc(50% + 9px);right:calc(var(--dw) + 36px);top:96px;bottom:178px;width:auto;height:auto}
+}
+.bento-c{height:100%;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:18px}
+.bento-c .t{position:relative;border-radius:26px;background:#1b1726;border:1px solid var(--linea);padding:18px;overflow:hidden;min-height:0}
+.bento-c .et{font-family:'Silkscreen',ui-monospace,monospace;font-size:12px;color:var(--suave)}
+.disco{display:flex;align-items:center;justify-content:center}
+.disco .et{position:absolute;left:18px;top:16px}
+.vinilo{width:min(70%,190px);aspect-ratio:1;border-radius:50%;background:repeating-radial-gradient(circle,#111 0 2px,#1e1e1e 2px 4px);display:flex;align-items:center;justify-content:center;
+  box-shadow:0 20px 40px rgba(0,0,0,.5);animation:cGira 4s linear infinite}
+.vinilo.para{animation-play-state:paused}
+.vinilo canvas{width:38%;height:38%;border-radius:50%}
+@keyframes cGira{to{transform:rotate(1turn)}}
+.viz{display:flex;flex-direction:column;justify-content:space-between}
+.barras{display:flex;align-items:flex-end;gap:6px;height:62%}
+.barras i{flex:1;height:100%;background:var(--lila);transform-origin:bottom;transform:scaleY(.1);transition:transform .08s linear}
+.barras i:nth-child(4){background:var(--texto)}
+.hoy{background:var(--lila)!important;border-color:var(--lila)!important;color:#0d0b14;display:flex;flex-direction:column;justify-content:space-between}
+.hoy .et{color:#0d0b14}
+.hoy .num{font-family:'VT323',ui-monospace,monospace;font-size:clamp(56px,6vw,88px);line-height:.8}
+.hoy .pie{font-size:14px;font-weight:500}
+.cola{display:flex;flex-direction:column;gap:10px}
+.cola .lista{display:flex;flex-direction:column;gap:8px;min-height:0;overflow:hidden;flex:1}
+.c-item{display:flex;gap:12px;align-items:center;text-align:left;border-radius:12px;padding:2px;min-width:0}
+.c-item canvas,.c-item img{width:40px;height:40px;border-radius:10px;flex:none;object-fit:cover}
+.c-item .tx{min-width:0}
+.c-item b{display:block;font-weight:500;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.c-item small{display:block;font-size:12px;color:var(--suave);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.c-item.sonando b{color:var(--lila)}
+@media(hover:hover) and (pointer:fine){.c-item:hover{background:#262036}}
+.cola .abrir{height:40px;border-radius:12px;border:1px solid #4a4163;font-size:13px;flex:none}
+@media(max-height:780px){.cola .c-item:nth-child(n+3){display:none}}
+
+/* letra "de la piel": una hoja clara con la palabra que suena marcada en lila */
+[data-piel="c"] .lirico{inset:0;width:auto;background:#f3f0ff;color:#0d0b14;border-radius:26px;padding:56px 32px 30px}
+[data-piel="c"] .lirico .kick{display:block;position:absolute;left:30px;right:30px;top:24px;font-family:'Silkscreen',ui-monospace,monospace;font-size:11px;color:#5b5470;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+[data-piel="c"] .lirico .foto,[data-piel="c"] .lirico .nombre{display:none}
+[data-piel="c"] .lirico .artista{display:block}
+[data-piel="c"] .lirico .antes{margin:0;font-family:'Space Grotesk',sans-serif;font-size:clamp(16px,1.5vw,22px);color:#6b6480}
+[data-piel="c"] .lirico .actual{margin-top:12px;font-family:'Space Grotesk',sans-serif;font-weight:700;text-transform:none;letter-spacing:-.025em;font-size:clamp(34px,min(4.2vw,7.5vh),64px);line-height:1.04;transform:none}
+[data-piel="c"] .lirico .actual .w{color:#b8b1cc;-webkit-text-stroke:0;text-shadow:none;border-radius:10px;padding:0 .05em}
+[data-piel="c"] .lirico .actual .w.on{color:#0d0b14;text-shadow:none}
+[data-piel="c"] .lirico .actual .w.nw{background:var(--lila);padding:0 .15em}
+[data-piel="c"] .lirico .actual.pausa{font-size:40px;color:#b8b1cc}
+[data-piel="c"] .lirico .sigue{margin-top:14px;font-family:'Space Grotesk',sans-serif;font-size:clamp(16px,1.5vw,22px);color:#6b6480}
+[data-piel="c"] .lirico .tr{color:#5b4aa0;font-family:'Space Grotesk',sans-serif}
+@media(max-width:1180px){[data-piel="c"] .lirico{inset:0 36px}}
+
+@media(max-width:760px){
+  [data-piel="c"] .barra{padding:max(14px,var(--seg-arr)) 14px 0}
+  [data-piel="c"] .logo{font-size:18px}
+  [data-piel="c"] .controles{left:10px;right:10px;padding:12px 14px}
+  [data-piel="c"] .escena{bottom:calc(214px + var(--seg-aba))}
+  [data-piel="c"] .lirico{inset:0 12px;padding:48px 20px 22px}
+  [data-piel="c"] .lirico .kick{left:20px;top:20px}
+  [data-piel="c"] .lirico .actual{font-size:clamp(28px,min(9vw,6vh),44px)}
+}
